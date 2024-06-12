@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <title>Login na COMunidade</title>
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Acesse seu espaço ou Assimile-se</h1>
+        <hr>
+        <div class="row">
+
+            <div class="col">
+                <form method="POST" action="" class="border p-4 mt-2">
+                    {{ formLogin.csrf_token }}
+                    <legend>Login</legend>
+                    <p>Acesse seu espaço.</p>
+                    <fieldset>
+                        <div class="form-group">
+                            {{ formLogin.email.label(class="form-control-label") }}
+                            {% if formLogin.email.errors %}
+                                {{ formLogin.email(class="form-control is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for erro in formLogin.email.errors %}
+                                        {{ erro }}
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ formLogin.email(class="form-control") }}
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            {{ formLogin.senha.label(class="form-control-label") }}
+                            {% if formLogin.senha.errors %}
+                                {{ formLogin.senha(class="form-control is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for erro in formLogin.senha.errors %}
+                                        {{ erro }}
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ formLogin.senha(class="form-control") }}
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            {{ formLogin.lembrar.label(class="form-check-label") }}
+                            {{ formLogin.lembrar(class="form-check-input") }}
+                        </div>
+                    </fieldset>
+                    {{ formLogin.botao_submit_login(class="btn btn-outline-primary mt-2") }}
+                </form>
+            </div>
+
+            <div class="col">
+                <form method="POST" action="" class="border p-4 mt-2">
+                    {{ formCriar.csrf_token }}
+                    <legend>Assimilar-se</legend>
+                    <p>Resistir é inútil.</p>
+                    <fieldset>
+                        <div class="form-group">
+                            {{ formCriar.username.label(class="form-control-label") }}
+                            {% if formCriar.username.errors %}
+                                {{ formCriar.username(class="form-control is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for erro in formCriar.username.errors %}
+                                        {{ erro }}
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ formCriar.username(class="form-control") }}
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            {{ formCriar.email.label(class="form-control-label") }}
+                            {% if formCriar.email.errors %}
+                                {{ formCriar.email(class="form-control is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for erro in formCriar.email.errors %}
+                                        {{ erro }}
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ formCriar.email(class="form-control") }}
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            {{ formCriar.senha.label(class="form-control-label") }}
+                            {% if formCriar.senha.errors %}
+                                {{ formCriar.senha(class="form-control is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for erro in formCriar.senha.errors %}
+                                        {{ erro }}
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ formCriar.senha(class="form-control") }}
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            {{ formCriar.confirmacao.label(class="form-control-label") }}
+                            {% if formCriar.confirmacao.errors %}
+                                {{ formCriar.confirmacao(class="form-control is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for erro in formCriar.confirmacao.errors %}
+                                        {{ erro }}
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ formCriar.confirmacao(class="form-control") }}
+                            {% endif %}
+                        </div>
+                    </fieldset>
+                    {{ formCriar.botao_submit_criar_conta(class="btn btn-outline-primary mt-2") }}
+                </form>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

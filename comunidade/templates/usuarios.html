@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <title>Usuários da COMunidade</title>
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Usuários já assimilados da COMunidade</h1>
+        <p>Eu não disse que resistir era inútil?</p>
+        {% for assimilado in lista_usuarios %}
+            <div class="container mt-5 d-flex justify-content-center">
+                <div class="card p-3 m-2">
+                    <div class="d-flex align-items-center">
+                        <div class="image pe-2">
+                            <img src="{{ url_for('static', filename='fotos_perfil/{}'.format(assimilado.foto)) }}" class="rounded" width="200" >
+                        </div>
+                        <div class="ml-3 w-100">
+                            <h4 class="mb-0 mt-0 nome">{{ assimilado.username }}</h4>
+                            <span class="profissao"><strong>{{ assimilado.email }}</strong></span>
+                            <div class="p-2 mt-2 bg-primary d-flex justify-content-between rounded text-white stats">
+                                <div class="d-flex flex-column">
+                                    <span class="articles">Cursos</span>
+                                    {% if 'Não informado.' in assimilado.cursos %}
+                                        <span class="number1">0</span>
+                                    {% else %}
+                                        <span class="number1">{{ assimilado.cursos.count(';') + 1 }}</span>
+                                    {% endif %}
+                                </div>
+                                <div class="d-flex flex-column">
+                                    <span class="rating">Posts</span>
+                                    <span class="number3">{{ assimilado.contar_posts() }}</span>
+                                </div>
+                            </div>
+    
+                            {% if assimilado.username == current_user.username %}
+                                <div class="button mt-2 d-flex flex-row align-items-center">
+                                    <a class="w-100" href="{{ url_for('editar_perfil') }}">
+                                        <button class="btn btn-sm btn-primary w-100 ml-2">Editar perfil</button>
+                                    </a>
+                                </div>
+                            {% endif %}
+    
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card p-3 m-2">
+                    <strong>Posts</strong>
+                    <div>
+                        {% for post in assimilado.posts %}
+                            <a class="link-post" href="{{ url_for('exibir_post', post_id=post.id) }}">
+                                <button class="btn btn-sm btn-primary m-1 w-100">{{ post.titulo }}</button>
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+
+
+            </div>
+    
+            <div class="cursos">
+                <strong>Cursos</strong>
+                <div class="lista-cursos">
+                    {% for curso in assimilado.cursos.split(';') %}
+                        <button class="btn btn-sm btn-success disabled m-1">{{ curso }}</button>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+        <br>
+    </div>
+{% endblock %}

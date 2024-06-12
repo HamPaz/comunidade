@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <title>Postagem {{ post.id }}</title>
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Postagem nº {{ post.id }}</h1>
+        <p>Relatório de <strong>{{ post.autor.username }}</strong>
+            <small>
+                (Criado em {{ post.criacao.strftime('%d/%m/%Y - %H:%M:%S') }})
+                {% if form %}
+                    <a href="#form_editar_post"><button class="btn btn-sm btn-outline-warning m-1">Editar</button></a>
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#excluirPost"><button class="btn btn-sm btn-outline-danger m-1">Excluir</button></a>
+                {% endif %}
+            </small>
+        </p>
+        <hr>
+
+        <div class="row mt-4 p-3 postagem">
+            <div class="col">
+                <div class="image pe-2 cursos">
+                    <img src="{{ url_for('static', filename='fotos_perfil/{}'.format(post.autor.foto)) }}" class="rounded" width="200" >
+                    <strong>{{ post.autor.username }}</strong>
+                    <div class="cursos">
+                        <div class="lista-cursos">
+                            {% for curso in post.autor.cursos.split(';') %}
+                                <button class="btn btn-sm btn-primary disabled m-1">{{ curso }}</button>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col col-9">
+                <h3>{{ post.titulo }}</h3>
+                <hr>
+                <p>{{ post.corpo }}</p>
+            </div>
+        </div>
+        <br>
+
+        {% if form %}
+            <div class="container">
+                <h2>Editar Post</h2>
+                <p>Comunicação é relevante. Perfeição é obrigatória.</p>
+
+                <div class="row">
+
+                    <div class="col">
+                        <form method="POST" action="" id="form_editar_post" class="border p-4 mt-2">
+
+                            {{ form.csrf_token }}
+                            <legend>Relatório de Assimilação</legend>
+                            <p>Borg report.</p>
+                            <fieldset>
+
+                                <div class="form-group">
+                                    {{ form.titulo.label(class="form-control-label") }}
+                                    {% if form.titulo.errors %}
+                                        {{ form.titulo(class="form-control is-invalid") }}
+                                        <div class="invalid-feedback">
+                                            {% for erro in form.titulo.errors %}
+                                                {{ erro }}
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{ form.titulo(class="form-control") }}
+                                    {% endif %}
+                                </div>
+
+                                <div class="form-group">
+                                    {{ form.corpo.label(class="form-control-label") }}
+                                    {% if form.corpo.errors %}
+                                        {{ form.corpo(class="form-control is-invalid") }}
+                                        <div class="invalid-feedback">
+                                            {% for erro in form.corpo.errors %}
+                                                {{ erro }}
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{ form.corpo(class="form-control") }}
+                                    {% endif %}
+                                </div>
+
+                            </fieldset>
+                            {{ form.bt_postar(class="btn btn-outline-primary mt-2") }}
+                        </form>
+                    </div>
+                </div>
+                <br>
+
+            </div>
+        {% endif %}
+
+    </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="excluirPost" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Excluir Post</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Você tem certeza de que esse POST pode ser eliminado? (Essa ação não poderá ser revertida).
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <form method="POST" action="{{ url_for('excluir_post', post_id=post.id) }}">
+          <button type="submit" class="btn btn-danger">Eliminar!</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+{% endblock %}
